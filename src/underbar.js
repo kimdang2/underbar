@@ -178,6 +178,7 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+<<<<<<< HEAD
     var hasNoAccumulator = (arguments.length === 2);
     _.each(collection, function(ele){
       if (hasNoAccumulator) { //function doesn't pass in an accumulator
@@ -187,6 +188,17 @@
         accumulator = iterator(accumulator, ele)
       }
     })
+=======
+    let hasNoArgument = (arguments.length === 2);
+    _.each(collection, function(ele){
+      if (hasNoArgument) { //function doesn't pass in an accumulator
+        accumulator = ele;
+        hasNoArgument = false;
+      } else {
+        accumulator = iterator(accumulator, ele)
+      }
+    });
+>>>>>>> a1bf1316f43ef4291eb5687dd81096b9e0b35da7
     return accumulator;
   }
 
