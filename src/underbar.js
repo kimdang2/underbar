@@ -88,9 +88,7 @@
   _.filter = function(collection, test) {
     let filtered = [];
     _.each(collection, function(num){
-      if(test(num)){
-        filtered.push(num);
-      }
+      if(test(num)) filtered.push(num);
     });
     return filtered;
   };
@@ -105,6 +103,27 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+    if(!isSorted){ // checks if array is sorted
+      array.sort(function(a,b) {return a - b});
+    }
+
+    let set = [];
+    let filtered = [];
+
+    _.each(array, function(ele){
+      if(iterator){ // checks if an iterator callback() was passed in
+        if(_.indexOf(filtered,iterator(ele)) === -1){
+          filtered.push(iterator(ele))
+          if (_.indexOf(set,ele) === -1){
+            set.push(ele);
+          }
+        }
+      } else if (_.indexOf(set,ele) === -1){ //otherwise do extraction as normal
+        set.push(ele);
+      }
+    });
+
+    return set;
   };
 
 
@@ -113,6 +132,11 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    let mapped = [];
+    _.each(collection, function(ele){
+      mapped.push(iterator(ele));
+    })
+    return mapped;
   };
 
   /*
