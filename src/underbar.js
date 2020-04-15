@@ -178,7 +178,17 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-  };
+    var hasNoAccumulator = (arguments.length === 2);
+    _.each(collection, function(ele){
+      if (hasNoAccumulator) { //function doesn't pass in an accumulator
+        hasNoAccumulator = false;
+        accumulator = ele; //set accum. to 1st element of collection!!!!!!
+      } else {
+        accumulator = iterator(accumulator, ele)
+      }
+    })
+    return accumulator;
+  }
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
