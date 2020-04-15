@@ -40,10 +40,10 @@
   _.last = function(array, n) {
     if (n === undefined){
       return array[array.length - 1];
-    } else if (n > array.length){ // idx argument is larger than arr.length
+    } else if (n > array.length){
       return array;
     } else {
-      return array.slice(array.length - n, array.length); //last n elements
+      return array.slice(array.length - n, array.length);
     }
   };
 
@@ -86,6 +86,13 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    let filtered = [];
+    _.each(collection, function(num){
+      if(test(num)){
+        filtered.push(num);
+      }
+    });
+    return filtered;
   };
 
   // Return all elements of an array that don't pass a truth test.
