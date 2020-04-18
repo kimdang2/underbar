@@ -178,7 +178,7 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-    var hasNoAccumulator = (arguments.length === 2);
+    let hasNoAccumulator = (arguments.length === 2);
     _.each(collection, function(ele){
       if (hasNoAccumulator) { //function doesn't pass in an accumulator
         hasNoAccumulator = false;
@@ -188,7 +188,7 @@
       }
     });
     return accumulator;
-  }
+  };
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
@@ -205,13 +205,26 @@
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
-    // TIP: Try re-using reduce() here.
+    // TIP: Try re-using reduce() here. If true go to next item, if false, return false
+
+    let hasNoIterator = (arguments.length === 1)
+    if(hasNoIterator) iterator = _.identity; // set when iterator isn't passed in
+    // if(!iterator) iterator = _.identity
+
+    return _.reduce(collection, function(doesPass, ele){
+      if(!iterator(ele)){
+        return false;
+      }
+      return doesPass
+    }, true);
+
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+
   };
 
 
@@ -234,6 +247,7 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+
   };
 
   // Like extend, but doesn't ever overwrite a key that already
