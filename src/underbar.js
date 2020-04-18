@@ -97,8 +97,9 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
-    let rejected = _.filter(collection, function(num){ return !test(num); });
-    return rejected;
+    return _.filter(collection, function(num){
+      return !test(num);
+    });
   };
 
   // Produce a duplicate-free version of the array.
@@ -207,9 +208,9 @@
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here. If true go to next item, if false, return false
 
-    let hasNoIterator = (arguments.length === 1)
-    if(hasNoIterator) iterator = _.identity; // set when iterator isn't passed in
-    // if(!iterator) iterator = _.identity
+    // let hasNoIterator = (arguments.length === 1)
+    // if(hasNoIterator) iterator = _.identity; // set when iterator isn't passed in
+    iterator = iterator || _.identity
 
     return _.reduce(collection, function(doesPass, ele){
       if(!iterator(ele)){
@@ -224,7 +225,14 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    iterator = iterator || _.identity;
 
+    return _.reduce(collection, function(doesPass, ele){
+      if(iterator(ele)){
+        return true;
+      }
+      return doesPass
+    }, false);
   };
 
 
