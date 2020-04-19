@@ -359,11 +359,19 @@
   // TIP: This function's test suite will ask that you not modify the original
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
-  _.shuffle = function(array) {
-    let shuffled = Array.prototype.slice(array) //copy of array
-
+ _.shuffle = function(array) {
+   let newArr = Array.prototype.slice.call(array) //copy of array
+   var currIdx = newArr.length;
+   while (currIdx > 0) {
+     let randomIdx = Math.floor(Math.random() * currIdx); //generates random idx to swap
+     currIdx -= 1;
+     //swaps curr element and random ele
+     let temp = newArr[currIdx];
+     newArr[currIdx] = newArr[randomIdx];
+     newArr[randomIdx] = temp;
+    }
+    return newArr;
   };
-
 
   /**
    * ADVANCED
