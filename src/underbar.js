@@ -267,6 +267,16 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    _.each(arguments, function(source) {
+      for (var key in source){
+        //only add source's value if the object doesn't exist to
+        //ensure no overwrits of a key that already exists in destination
+        if (obj[key] === undefined){
+          obj[key] = source[key];
+        }
+      }
+    });
+    return obj;
   };
 
 
@@ -310,7 +320,19 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    let cache = {}
+    return function () {
+      var argsArray = Array.prototype.slice.call(arguments); //array of args
+      var key = JSON.stringify(argsArray); //convert args to string
+      if (key in cache){
+        return cache[key] // return already computed result
+      }else {
+        return cache[key] = func.apply(null, argsArray); // func call with args
+      }
+    }
   };
+
+
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
@@ -319,6 +341,9 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    return setTimeout(function() {
+      return func.apply(func, arguments);
+    }, wait);
   };
 
 
