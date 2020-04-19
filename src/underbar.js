@@ -256,7 +256,8 @@
   //   }); // obj1 now contains key1, ke
   _.extend = function(obj) {
     //extend takes in indefinite number of arguments
-    _.each(arguments, function(source) {
+    var argsArray = Array.prototype.slice.call(arguments); //convert to real array
+    _.each(argsArray, function(source) {
       for (var key in source){
         obj[key] = source[key]; //last source overrides property of the same name over to destination
       }
@@ -322,7 +323,7 @@
   _.memoize = function(func) {
     let cache = {}
     return function () {
-      var argsArray = Array.prototype.slice.call(arguments); //array of args
+      var argsArray = Array.prototype.slice.call(arguments); //convert to a real array
       var key = JSON.stringify(argsArray); //convert args to string
       if (key in cache){
         return cache[key] // return already computed result
@@ -333,7 +334,6 @@
   };
 
 
-
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
   //
@@ -341,8 +341,10 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var args = Array.prototype.slice.call(arguments);
+    var optionalArgs = args.slice(2); // arguments supplied
     return setTimeout(function() {
-      return func.apply(func, arguments);
+      return func.apply(null, optionalArgs)
     }, wait);
   };
 
@@ -358,6 +360,8 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    let shuffled = Array.prototype.slice(array) //copy of array
+
   };
 
 
